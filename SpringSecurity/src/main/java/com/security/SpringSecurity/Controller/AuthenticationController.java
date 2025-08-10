@@ -1,14 +1,19 @@
 package com.security.SpringSecurity.Controller;
 
+import com.nimbusds.jose.JOSEException;
 import com.security.SpringSecurity.Dto.request.AuthenticationRequest;
+import com.security.SpringSecurity.Dto.request.IntrospectRequest;
 import com.security.SpringSecurity.Dto.response.ApiResponse;
 import com.security.SpringSecurity.Dto.response.AuthenticationResponse;
+import com.security.SpringSecurity.Dto.response.IntrospectResponse;
 import com.security.SpringSecurity.Service.AuthenticationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/auth")
@@ -17,16 +22,20 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
     AuthenticationService authenticationService;
 
-    @PostMapping("/log-in")
+    @PostMapping("/token")
     ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest){
-        boolean result = authenticationService.authenticated(authenticationRequest);
-        //ApiResponse apiResponse = new ApiResponse();
-        //apiResponse.setResult(result);
-        //Thay vì dùng như trên thì dùng Builder để set data cho ApiResponse
+        var result = authenticationService.authenticated(authenticationRequest);
         return ApiResponse.<AuthenticationResponse>builder()
-                .result(AuthenticationResponse.builder()
-                        .authenticated(result)
-                        .build())
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/introspect")
+    ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest introspectRequest)
+            throws ParseException, JOSEException {
+        IntrospectResponse result = authenticationService.introspect(introspectRequest);
+        return ApiResponse.<IntrospectResponse>builder()
+                .result(result)
                 .build();
     }
 }

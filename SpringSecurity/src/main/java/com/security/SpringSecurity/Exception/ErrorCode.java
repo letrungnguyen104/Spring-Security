@@ -9,7 +9,8 @@ public enum ErrorCode {
     USERNAME_INVALID(1003, "Username must be at least 8 characters!"),
     PASSWORD_INVALID(1004, "Password must be at least 8 characters!"),
     USER_NOT_EXISTED(1005, "User not found!"),
-    EMAIL_INVALID(1006, "Incorrect email format!")
+    EMAIL_INVALID(1006, "Incorrect email format!"),
+    UNAUTHENTICATED(1007, "Unauthenticated!")
     ;
 
     ErrorCode(int code, String message) {
