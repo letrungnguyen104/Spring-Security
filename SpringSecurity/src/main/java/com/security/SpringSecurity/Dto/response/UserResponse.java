@@ -1,8 +1,9 @@
 package com.security.SpringSecurity.Dto.response;
 
-import com.security.SpringSecurity.Entity.Roles;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +15,5 @@ public class UserResponse {
     String fullname;
     String email;
     private String username;
-    String password;
-    Roles roles;
+    Set<String> roles;
 }
